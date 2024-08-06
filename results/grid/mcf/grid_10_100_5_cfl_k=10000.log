@@ -1,0 +1,36 @@
+Running LACFIP with k=10000 on a CFL task with 100 plans, objective cfl
+
+Computing the alternative plans..
+Alternative plans computed in 9.764070749282837 seconds
+Alternative plans computed in 10.365733861923218 seconds
+Alternative plans computed in 15.405625104904175 seconds
+Alternative plans computed in 15.131424903869629 seconds
+Alternative plans computed in 14.969373941421509 seconds
+Alternative plans computed in 14.181546926498413 seconds
+Alternative plans computed in 14.244791030883789 seconds
+Alternative plans computed in 32.21965789794922 seconds
+Alternative plans computed in 29.1282377243042 seconds
+Alternative plans computed in 29.909167766571045 seconds
+Alternative plans computed in 41.10797691345215 seconds
+Alternative plans computed in 32.39218187332153 seconds
+Alternative plans computed in 27.690922021865845 seconds
+Alternative plans computed in 27.96875810623169 seconds
+Alternative plans computed in 28.53122305870056 seconds
+Alternative plans computed in 28.30023217201233 seconds
+Alternative plans computed in 30.226919174194336 seconds
+Alternative plans computed in 13.669463872909546 seconds
+Alternative plans computed in 12.72304391860962 seconds
+Alternative plans computed in 12.732350826263428 seconds
+Alternative plans computed in 13.089074850082397 seconds
+Alternative plans computed in 15.264883995056152 seconds
+Alternative plans computed in 15.233644008636475 seconds
+Alternative plans computed in 15.365959167480469 seconds
+Alternative plans computed in 18.486807823181152 seconds
+Alternative plans computed in 18.134087085723877 seconds
+There are 360 grounded actions
+There are 356 relevant actions
+
+Running the MILP...
+First solution computed in: 180.9675350189209
+Plans made optimal: 17.0
+Running the second iteration of the MILP

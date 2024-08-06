@@ -1,0 +1,4 @@
+venv/
+pddl-generators/
+.idea
+symk/builds/
