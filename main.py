@@ -33,7 +33,7 @@ def get_symk_plans():
     return alternative_plans
 
 def get_alternative_plans(domain_path, problem_path, input_plan, k):
-    symk_cmd = f'symk/fast-downward.py --overall-time-limit=1800 {domain_path} {problem_path} --search "symk_bd(simple=true,plan_selection=unordered(num_plans={k}))" > /dev/null'
+    symk_cmd = f'symk/fast-downward.py --overall-time-limit=1800 {domain_path} {problem_path} --search "symk_bd(simple=true,plan_selection=unordered(num_plans={k}))"'
     os.system(symk_cmd)
     grounded_actions = open('grounded_actions.txt','r').readlines()[0].split(',')
     f = open('grounded_actions_with_cost.json')

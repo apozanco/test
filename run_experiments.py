@@ -17,8 +17,8 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-domains = ['grid']
-objectives = ['scfl']
+domains = ['elevators']
+objectives = ['cfl']
 problems_solved = []
 ks = [10,100,1000,10000]
 for domain in domains:
@@ -30,7 +30,7 @@ for domain in domains:
                     try:
                         # 4000 so it comprises 1800 for the main algorithm and 2200 to validate the output
                         with time_limit(4600):
-                            run_lacfip('benchmark/grid/domain.pddl',
+                            run_lacfip(f'benchmark/{domain}/domain.pddl',
                                        f'cost_function_learning_tasks/{domain}/{task}',
                                        objective,
                                        k)
