@@ -5,7 +5,7 @@ import json
 import math
 
 benchmark_path = '../benchmark'
-domain = 'barman'
+domain = 'transport'
 M_sizes = [10, 100, 1000]
 tasks_in_each_bucket = 10
 
