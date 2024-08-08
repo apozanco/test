@@ -69,9 +69,9 @@ def generate_ratio_violinplot(df):
 
 def get_results_dict():
     results = []
-    for file in os.listdir(os.getcwd()):
+    for file in os.listdir('results/grid/mcf'):
         if file.endswith('.log') and 'grid_10_' in file and not 'infinity' in file:
-            infile = open(file, 'r')
+            infile = open(f'results/grid/mcf/{file}', 'r')
             result = {
                 'domain': file.split('_')[0],
                 'full_problem': file.split('k')[0],
