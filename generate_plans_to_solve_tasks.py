@@ -1,7 +1,7 @@
 import os
 
 benchmarks_path = 'benchmark'
-domains = ['grid']
+domains = ['transport']
 k=100
 
 os.system('rm sas_plan*')
