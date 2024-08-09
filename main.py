@@ -168,7 +168,7 @@ def run_baseline(domain_path, task_path, task_objective, approximate_cost_functi
         problems = [domain_path.replace("domain", problem) for problem in problems]
         domain_paths = [domain_path for x in range(len(problems))]
         task = zip(problems, plans, domain_paths)
-        plans_turned_optimal, suboptimality = validate_results(task, cost_function)
+        plans_turned_optimal, suboptimality = validate_results(task, cost_function, task_objective)
         log.info(
             f'Total plans turned optimal: {sum(plans_turned_optimal)} out of {len(problems)}, {sum(plans_turned_optimal) / len(problems)}')
         log.info(f'Plans turned optimal distribution: {plans_turned_optimal}')
