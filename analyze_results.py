@@ -124,9 +124,83 @@ def time_split_analysis(df):
             milp_overhead = [x/y for x,y in zip(milp_time,alternative_plans_time)]
             print(f'K={k}, CFL={cfl_size}: MILP overhead avg{statistics.mean(milp_overhead)} std{statistics.stdev(milp_overhead)} max{max(milp_overhead)} min{min(milp_overhead)}')
 
+def get_problems_solved_within_bounds(df):
+    solved_df = df[(df['total_time']<1800) & (df['suboptimality_distribution'].apply(lambda x: isinstance(x, list)))]
+    return solved_df
+
+def print_table(results):
+    color_mapping = {
+        0.0: '\cellcolor{NavyBlue!0}{',
+        0.1: '\cellcolor{NavyBlue!10}{',
+        0.2: '\cellcolor{NavyBlue!20}{',
+        0.3: '\cellcolor{NavyBlue!30}{',
+        0.4: '\cellcolor{NavyBlue!40}{',
+        0.5: '\cellcolor{NavyBlue!50}{',
+        0.6: '\cellcolor{NavyBlue!60}{',
+        0.7: '\cellcolor{NavyBlue!70}{',
+        0.8: '\cellcolor{NavyBlue!80}{',
+        0.9: '\cellcolor{NavyBlue!90}{',
+        1.0: '\cellcolor{NavyBlue!100}{'
+    }
+    cfl_sizes = [10, 100, 1000]
+    algorithms = ['baseline', 10, 100, 1000, 10000]
+    for algorithm in algorithms:
+        for cfl_size in cfl_sizes:
+            mean = float(results[cfl_size][algorithm].split('\pm')[0].strip())
+            print(f"{color_mapping[mean]}${results[cfl_size][algorithm]}$}}&", end='')
+        print()
+
+def generate_table(df):
+    domains = ['grid']
+    cfl_sizes = [10, 100, 1000]
+    algorithms = ['baseline', 10, 100, 1000, 10000]
+    results = {
+        10: {
+            'baseline': '',
+            10: '',
+            100: '',
+            1000: '',
+            10000: ''
+        },
+        100: {
+            'baseline': '',
+            10: '',
+            100: '',
+            1000: '',
+            10000: ''
+        },
+        1000: {
+            'baseline': '',
+            10: '',
+            100: '',
+            1000: '',
+            10000: ''
+        },
+    }
+    df = get_problems_solved_within_bounds(df)
+    for domain in domains:
+        for cfl_size in cfl_sizes:
+            cfl_df = df[(df['domain'] == domain) & (df['cfl_size'] == cfl_size)]
+            problems = cfl_df['full_problem'].unique()
+            commonly_solved_problems = []
+            for problem in problems:
+                this_df = df[df['full_problem'] == problem]
+                if len(this_df.index) == 5:
+                    commonly_solved_problems.append(problem)
+            commonly_solved_problems_df = cfl_df[cfl_df['full_problem'].isin(commonly_solved_problems)]
+            print(f'There are {len(commonly_solved_problems)} commonly solved problems in {domain} with cfl size {cfl_size}')
+            for algorithm in algorithms:
+                mean = commonly_solved_problems_df[commonly_solved_problems_df['k']==algorithm]['ratio_of_plans_turned_optimal'].mean().round(1)
+                std = commonly_solved_problems_df[commonly_solved_problems_df['k']==algorithm]['ratio_of_plans_turned_optimal'].std().round(1)
+                results[cfl_size][algorithm] = f'{mean} \pm {std}'
+    print_table(results)
+
+
 
 if __name__ == '__main__':
     df = get_results_dict()
+    # Generate table
+    generate_table(df)
     # Time split
     time_split_analysis(df)
     # Ratio of optimal plans as k increases
