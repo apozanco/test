@@ -216,6 +216,7 @@ def run_lacfip(domain_path, task_path, task_objective, k):
             log.info(f'Running LACFIP with k={k} on a CFL task with {len(plans)} plans, objective {task_objective}')
             grounded_actions = []
             input_plans_and_alternatives = {}
+            approximate_cost_function = {}
             # TODO: this could be run in parallel
             log.info('\nComputing the alternative plans..')
             for tuple in task:
@@ -225,8 +226,14 @@ def run_lacfip(domain_path, task_path, task_objective, k):
                 # TODO: at some point we should verify that all the plans share the same grounded actions
                 problem_path = domain_path.replace("domain.pddl",problem)
                 if plan not in input_plans_and_alternatives:
-                    alternative_plans, grounded_actions, approximate_cost_function = get_alternative_plans(domain_path, problem_path, plan, k)
+                    alternative_plans, this_grounded_actions, this_approximate_cost_function = get_alternative_plans(domain_path, problem_path, plan, k)
                     input_plans_and_alternatives[plan] = alternative_plans
+                    for act in this_grounded_actions:
+                        if act not in grounded_actions:
+                            grounded_actions.append(act)
+                    for key, value in this_approximate_cost_function.items():
+                        if key not in approximate_cost_function:
+                            approximate_cost_function[key] = value
                 alternatives_end_T = time.time()
                 log.info(f'Alternative plans computed in {alternatives_end_T - alternatives_init_T} seconds')
             log.info(f'There are {len(grounded_actions)} grounded actions')

@@ -19,6 +19,11 @@ def run_milp(log, grounded_actions, input_plans_and_alternatives, task, approxim
     y = LpVariable.dict("cost", grounded_actions, lowBound=1, cat=LpInteger)
     z = LpVariable.dicts("aoptimality", input_plans_and_alternatives_list, cat=LpBinary)
 
+    actions_name_mapping = {}
+    for action in grounded_actions:
+        new_name = f'cost_{action.replace("-","_").replace(" ","_")}'
+        actions_name_mapping[new_name] = action
+
     # Objective function in the first run
     prob += lpSum([x[plan] for plan in input_plans])
 
@@ -52,9 +57,7 @@ def run_milp(log, grounded_actions, input_plans_and_alternatives, task, approxim
         log.info(f'Plans made optimal: {optimal_plans}')
         for v in prob.variables():
             if 'cost' in v.name:
-                action_name_list = v.name.replace('cost_', '').replace('drive_car1_','drive car1 ').split('_')
-                action_name = f'{action_name_list[0]}_{action_name_list[1]} {action_name_list[2]}_{action_name_list[3]}'
-                first_cost_function[action_name] = v.varValue
+                first_cost_function[actions_name_mapping[v.name]] = v.varValue
     else:
         log.info('No solution could be found')
 
@@ -84,9 +87,7 @@ def run_milp(log, grounded_actions, input_plans_and_alternatives, task, approxim
         log.info(f'Plans made optimal: {optimal_plans}')
         for v in prob.variables():
             if 'cost' in v.name:
-                action_name_list = v.name.replace('cost_', '').replace('drive_car1_','drive car1 ').split('_')
-                action_name = f'{action_name_list[0]}_{action_name_list[1]} {action_name_list[2]}_{action_name_list[3]}'
-                cost_function[action_name] = v.varValue
+                cost_function[actions_name_mapping[v.name]] = v.varValue
     else:
         log.info('No solution could be found')
 

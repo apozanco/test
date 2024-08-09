@@ -17,7 +17,7 @@ def time_limit(seconds):
         signal.alarm(0)
 
 
-domains = ['elevators']
+domains = ['barman']
 objectives = ['cfl']
 problems_solved = []
 ks = [10,100,1000,10000]
